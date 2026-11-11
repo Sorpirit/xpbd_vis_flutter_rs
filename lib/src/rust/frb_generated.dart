@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/sim.dart';
 import 'api/simple.dart';
 
 import 'dart:async';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => 1957097367;
+  int get rustContentHash => 2063949670;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,11 +82,27 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<SimFrame> crateApiSimSimAdvance({
+    required Sim that,
+    required double frameDt,
+    required SimInput input,
+  });
+
+  SceneInfo crateApiSimSimInfo({required Sim that});
+
+  Sim crateApiSimSimScene();
+
   double crateApiSimpleAdd({required double a, required double b});
 
   String crateApiSimpleGreet({required String name});
 
   Future<void> crateApiSimpleInitApp();
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Sim;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Sim;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SimPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -97,6 +114,94 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
+  Future<SimFrame> crateApiSimSimAdvance({
+    required Sim that,
+    required double frameDt,
+    required SimInput input,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+            that,
+            serializer,
+          );
+          sse_encode_f_32(frameDt, serializer);
+          sse_encode_box_autoadd_sim_input(input, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 1,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_sim_frame,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiSimSimAdvanceConstMeta,
+        argValues: [that, frameDt, input],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSimSimAdvanceConstMeta => const TaskConstMeta(
+    debugName: "Sim_advance",
+    argNames: ["that", "frameDt", "input"],
+  );
+
+  @override
+  SceneInfo crateApiSimSimInfo({required Sim that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_scene_info,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiSimSimInfoConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSimSimInfoConstMeta =>
+      const TaskConstMeta(debugName: "Sim_info", argNames: ["that"]);
+
+  @override
+  Sim crateApiSimSimScene() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiSimSimSceneConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSimSimSceneConstMeta =>
+      const TaskConstMeta(debugName: "Sim_scene", argNames: []);
+
+  @override
   double crateApiSimpleAdd({required double a, required double b}) {
     return handler.executeSync(
       SyncTask(
@@ -104,7 +209,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_f_32(a, serializer);
           sse_encode_f_32(b, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_f_32,
@@ -127,7 +232,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -152,7 +257,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 3,
+            funcId: 6,
             port: port_,
           );
         },
@@ -170,10 +275,94 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiSimpleInitAppConstMeta =>
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_Sim => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_Sim => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim;
+
+  @protected
+  Sim
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SimImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Sim
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SimImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Sim
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SimImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Sim
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SimImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
   @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  BodyInfo dco_decode_body_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return BodyInfo(
+      kind: dco_decode_body_kind(arr[0]),
+      start: dco_decode_u_32(arr[1]),
+      count: dco_decode_u_32(arr[2]),
+      outline: dco_decode_list_prim_u_32_strict(arr[3]),
+      cols: dco_decode_u_32(arr[4]),
+      rows: dco_decode_u_32(arr[5]),
+    );
+  }
+
+  @protected
+  BodyKind dco_decode_body_kind(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BodyKind.values[raw as int];
+  }
+
+  @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  SimInput dco_decode_box_autoadd_sim_input(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_sim_input(raw);
+  }
+
+  @protected
+  Vec2 dco_decode_box_autoadd_vec_2(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_vec_2(raw);
   }
 
   @protected
@@ -183,9 +372,114 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  List<BodyInfo> dco_decode_list_body_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_body_info).toList();
+  }
+
+  @protected
+  Float32List dco_decode_list_prim_f_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Float32List;
+  }
+
+  @protected
+  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Uint32List;
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  Vec2? dco_decode_opt_box_autoadd_vec_2(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_vec_2(raw);
+  }
+
+  @protected
+  SceneInfo dco_decode_scene_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
+    return SceneInfo(
+      bodies: dco_decode_list_body_info(arr[0]),
+      lines: dco_decode_list_prim_u_32_strict(arr[1]),
+      constraints: dco_decode_list_prim_u_32_strict(arr[2]),
+      rests: dco_decode_list_prim_f_32_strict(arr[3]),
+      ties: dco_decode_list_prim_u_32_strict(arr[4]),
+      radius: dco_decode_f_32(arr[5]),
+      floorY: dco_decode_f_32(arr[6]),
+      wallX: dco_decode_f_32(arr[7]),
+    );
+  }
+
+  @protected
+  SimFrame dco_decode_sim_frame(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return SimFrame(
+      positions: dco_decode_list_prim_f_32_strict(arr[0]),
+      velocities: dco_decode_list_prim_f_32_strict(arr[1]),
+      contacts: dco_decode_list_prim_u_32_strict(arr[2]),
+      stats: dco_decode_sim_stats(arr[3]),
+      steps: dco_decode_u_32(arr[4]),
+    );
+  }
+
+  @protected
+  SimInput dco_decode_sim_input(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 10)
+      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
+    return SimInput(
+      gravity: dco_decode_f_32(arr[0]),
+      compliance: dco_decode_f_32(arr[1]),
+      damping: dco_decode_f_32(arr[2]),
+      substeps: dco_decode_u_32(arr[3]),
+      paused: dco_decode_bool(arr[4]),
+      reset: dco_decode_bool(arr[5]),
+      drag: dco_decode_opt_box_autoadd_vec_2(arr[6]),
+      fire: dco_decode_opt_box_autoadd_vec_2(arr[7]),
+      stepOnce: dco_decode_bool(arr[8]),
+      debug: dco_decode_bool(arr[9]),
+    );
+  }
+
+  @protected
+  SimStats dco_decode_sim_stats(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return SimStats(
+      particles: dco_decode_u_32(arr[0]),
+      constraints: dco_decode_u_32(arr[1]),
+      contacts: dco_decode_u_32(arr[2]),
+      kinetic: dco_decode_f_32(arr[3]),
+      potential: dco_decode_f_32(arr[4]),
+      maxStretch: dco_decode_f_32(arr[5]),
+    );
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -201,10 +495,117 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  BigInt dco_decode_usize(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
+  }
+
+  @protected
+  Vec2 dco_decode_vec_2(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return Vec2(x: dco_decode_f_32(arr[0]), y: dco_decode_f_32(arr[1]));
+  }
+
+  @protected
+  Sim
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SimImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Sim
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SimImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Sim
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SimImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Sim
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SimImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  BodyInfo sse_decode_body_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_kind = sse_decode_body_kind(deserializer);
+    var var_start = sse_decode_u_32(deserializer);
+    var var_count = sse_decode_u_32(deserializer);
+    var var_outline = sse_decode_list_prim_u_32_strict(deserializer);
+    var var_cols = sse_decode_u_32(deserializer);
+    var var_rows = sse_decode_u_32(deserializer);
+    return BodyInfo(
+      kind: var_kind,
+      start: var_start,
+      count: var_count,
+      outline: var_outline,
+      cols: var_cols,
+      rows: var_rows,
+    );
+  }
+
+  @protected
+  BodyKind sse_decode_body_kind(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return BodyKind.values[inner];
+  }
+
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  SimInput sse_decode_box_autoadd_sim_input(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_sim_input(deserializer));
+  }
+
+  @protected
+  Vec2 sse_decode_box_autoadd_vec_2(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_vec_2(deserializer));
   }
 
   @protected
@@ -214,10 +615,145 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
+  List<BodyInfo> sse_decode_list_body_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <BodyInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_body_info(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  Float32List sse_decode_list_prim_f_32_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getFloat32List(len_);
+  }
+
+  @protected
+  Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint32List(len_);
+  }
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  Vec2? sse_decode_opt_box_autoadd_vec_2(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_vec_2(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  SceneInfo sse_decode_scene_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_bodies = sse_decode_list_body_info(deserializer);
+    var var_lines = sse_decode_list_prim_u_32_strict(deserializer);
+    var var_constraints = sse_decode_list_prim_u_32_strict(deserializer);
+    var var_rests = sse_decode_list_prim_f_32_strict(deserializer);
+    var var_ties = sse_decode_list_prim_u_32_strict(deserializer);
+    var var_radius = sse_decode_f_32(deserializer);
+    var var_floorY = sse_decode_f_32(deserializer);
+    var var_wallX = sse_decode_f_32(deserializer);
+    return SceneInfo(
+      bodies: var_bodies,
+      lines: var_lines,
+      constraints: var_constraints,
+      rests: var_rests,
+      ties: var_ties,
+      radius: var_radius,
+      floorY: var_floorY,
+      wallX: var_wallX,
+    );
+  }
+
+  @protected
+  SimFrame sse_decode_sim_frame(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_positions = sse_decode_list_prim_f_32_strict(deserializer);
+    var var_velocities = sse_decode_list_prim_f_32_strict(deserializer);
+    var var_contacts = sse_decode_list_prim_u_32_strict(deserializer);
+    var var_stats = sse_decode_sim_stats(deserializer);
+    var var_steps = sse_decode_u_32(deserializer);
+    return SimFrame(
+      positions: var_positions,
+      velocities: var_velocities,
+      contacts: var_contacts,
+      stats: var_stats,
+      steps: var_steps,
+    );
+  }
+
+  @protected
+  SimInput sse_decode_sim_input(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_gravity = sse_decode_f_32(deserializer);
+    var var_compliance = sse_decode_f_32(deserializer);
+    var var_damping = sse_decode_f_32(deserializer);
+    var var_substeps = sse_decode_u_32(deserializer);
+    var var_paused = sse_decode_bool(deserializer);
+    var var_reset = sse_decode_bool(deserializer);
+    var var_drag = sse_decode_opt_box_autoadd_vec_2(deserializer);
+    var var_fire = sse_decode_opt_box_autoadd_vec_2(deserializer);
+    var var_stepOnce = sse_decode_bool(deserializer);
+    var var_debug = sse_decode_bool(deserializer);
+    return SimInput(
+      gravity: var_gravity,
+      compliance: var_compliance,
+      damping: var_damping,
+      substeps: var_substeps,
+      paused: var_paused,
+      reset: var_reset,
+      drag: var_drag,
+      fire: var_fire,
+      stepOnce: var_stepOnce,
+      debug: var_debug,
+    );
+  }
+
+  @protected
+  SimStats sse_decode_sim_stats(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_particles = sse_decode_u_32(deserializer);
+    var var_constraints = sse_decode_u_32(deserializer);
+    var var_contacts = sse_decode_u_32(deserializer);
+    var var_kinetic = sse_decode_f_32(deserializer);
+    var var_potential = sse_decode_f_32(deserializer);
+    var var_maxStretch = sse_decode_f_32(deserializer);
+    return SimStats(
+      particles: var_particles,
+      constraints: var_constraints,
+      contacts: var_contacts,
+      kinetic: var_kinetic,
+      potential: var_potential,
+      maxStretch: var_maxStretch,
+    );
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
   }
 
   @protected
@@ -232,15 +768,69 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
+  BigInt sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer) {
+  Vec2 sse_decode_vec_2(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint8() != 0;
+    var var_x = sse_decode_f_32(deserializer);
+    var var_y = sse_decode_f_32(deserializer);
+    return Vec2(x: var_x, y: var_y);
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    Sim self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as SimImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    Sim self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as SimImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    Sim self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as SimImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+    Sim self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as SimImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
   }
 
   @protected
@@ -250,9 +840,85 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_body_info(BodyInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_body_kind(self.kind, serializer);
+    sse_encode_u_32(self.start, serializer);
+    sse_encode_u_32(self.count, serializer);
+    sse_encode_list_prim_u_32_strict(self.outline, serializer);
+    sse_encode_u_32(self.cols, serializer);
+    sse_encode_u_32(self.rows, serializer);
+  }
+
+  @protected
+  void sse_encode_body_kind(BodyKind self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_sim_input(
+    SimInput self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_sim_input(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_vec_2(Vec2 self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_vec_2(self, serializer);
+  }
+
+  @protected
   void sse_encode_f_32(double self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putFloat32(self);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
+  void sse_encode_list_body_info(
+    List<BodyInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_body_info(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_prim_f_32_strict(
+    Float32List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putFloat32List(self);
+  }
+
+  @protected
+  void sse_encode_list_prim_u_32_strict(
+    Uint32List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint32List(self);
   }
 
   @protected
@@ -263,6 +929,71 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_vec_2(Vec2? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_vec_2(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_scene_info(SceneInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_body_info(self.bodies, serializer);
+    sse_encode_list_prim_u_32_strict(self.lines, serializer);
+    sse_encode_list_prim_u_32_strict(self.constraints, serializer);
+    sse_encode_list_prim_f_32_strict(self.rests, serializer);
+    sse_encode_list_prim_u_32_strict(self.ties, serializer);
+    sse_encode_f_32(self.radius, serializer);
+    sse_encode_f_32(self.floorY, serializer);
+    sse_encode_f_32(self.wallX, serializer);
+  }
+
+  @protected
+  void sse_encode_sim_frame(SimFrame self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_f_32_strict(self.positions, serializer);
+    sse_encode_list_prim_f_32_strict(self.velocities, serializer);
+    sse_encode_list_prim_u_32_strict(self.contacts, serializer);
+    sse_encode_sim_stats(self.stats, serializer);
+    sse_encode_u_32(self.steps, serializer);
+  }
+
+  @protected
+  void sse_encode_sim_input(SimInput self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_f_32(self.gravity, serializer);
+    sse_encode_f_32(self.compliance, serializer);
+    sse_encode_f_32(self.damping, serializer);
+    sse_encode_u_32(self.substeps, serializer);
+    sse_encode_bool(self.paused, serializer);
+    sse_encode_bool(self.reset, serializer);
+    sse_encode_opt_box_autoadd_vec_2(self.drag, serializer);
+    sse_encode_opt_box_autoadd_vec_2(self.fire, serializer);
+    sse_encode_bool(self.stepOnce, serializer);
+    sse_encode_bool(self.debug, serializer);
+  }
+
+  @protected
+  void sse_encode_sim_stats(SimStats self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.particles, serializer);
+    sse_encode_u_32(self.constraints, serializer);
+    sse_encode_u_32(self.contacts, serializer);
+    sse_encode_f_32(self.kinetic, serializer);
+    sse_encode_f_32(self.potential, serializer);
+    sse_encode_f_32(self.maxStretch, serializer);
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
   }
 
   @protected
@@ -277,14 +1008,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
+  void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected
-  void sse_encode_bool(bool self, SseSerializer serializer) {
+  void sse_encode_vec_2(Vec2 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint8(self ? 1 : 0);
+    sse_encode_f_32(self.x, serializer);
+    sse_encode_f_32(self.y, serializer);
   }
+}
+
+@sealed
+class SimImpl extends RustOpaque implements Sim {
+  // Not to be used by end users
+  SimImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  SimImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_Sim,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_Sim,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_SimPtr,
+  );
+
+  /// Advance by `frame_dt` seconds of real time and return what to draw.
+  ///
+  /// Not `#[frb(sync)]`: Dart gets a Future and this runs on the bridge's
+  /// worker thread pool, off the UI thread.
+  Future<SimFrame> advance({
+    required double frameDt,
+    required SimInput input,
+  }) => RustLib.instance.api.crateApiSimSimAdvance(
+    that: this,
+    frameDt: frameDt,
+    input: input,
+  );
+
+  /// What the scene is made of. Call once; it does not change between frames.
+  SceneInfo info() => RustLib.instance.api.crateApiSimSimInfo(that: this);
 }

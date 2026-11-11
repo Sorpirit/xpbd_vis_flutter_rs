@@ -42,6 +42,8 @@ import 'package:flutter/material.dart';
 import 'package:xpbd_viz/src/rust/api/simple.dart';
 import 'package:xpbd_viz/src/rust/frb_generated.dart';
 
+import 'scene_page.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -117,13 +119,19 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Slider(value: _b, min: 0.0, max: 10.0, onChanged:(value) {
-              setState(() {
-                _b = value;
-              });
-            },),
-            Text('Rust says: $_counter + ${_b.toStringAsFixed(1)} = '
-              '${add(a: _counter.toDouble(), b: _b)}'
+            Slider(
+              value: _b,
+              min: 0.0,
+              max: 10.0,
+              onChanged: (value) {
+                setState(() {
+                  _b = value;
+                });
+              },
+            ),
+            Text(
+              'Rust says: $_counter + ${_b.toStringAsFixed(1)} = '
+              '${add(a: _counter.toDouble(), b: _b)}',
             ),
           ],
         ),
@@ -137,7 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 Future<void> main() async {
   await RustLib.init();
   runApp(const MyApp());
@@ -148,8 +155,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MaterialApp(theme: ThemeData.dark(), home: const ScenePage());
   }
 }

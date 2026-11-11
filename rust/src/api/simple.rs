@@ -4,7 +4,9 @@ pub fn greet(name: String) -> String {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn add(a: f32, b: f32) -> f32 { a + b }
+pub fn add(a: f32, b: f32) -> f32 {
+    a + b
+}
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {

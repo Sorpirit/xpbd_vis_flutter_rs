@@ -27,6 +27,7 @@
 
 // Section: imports
 
+use crate::api::sim::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
 use flutter_rust_bridge::{Handler, IntoIntoDart};
@@ -39,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1957097367;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2063949670;
 
 // Section: executor
 
@@ -47,6 +48,136 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__sim__Sim_advance_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Sim_advance",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>,
+            >>::sse_decode(&mut deserializer);
+            let api_frame_dt = <f32>::sse_decode(&mut deserializer);
+            let api_input = <crate::api::sim::SimInput>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, true,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that_guard = api_that_guard.unwrap();
+                    let output_ok = Ok::<_, ()>(crate::api::sim::Sim::advance(
+                        &mut *api_that_guard,
+                        api_frame_dt,
+                        api_input,
+                    ))?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__sim__Sim_info_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Sim_info",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Ok::<_, ()>(crate::api::sim::Sim::info(&*api_that_guard))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__sim__Sim_scene_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Sim_scene",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::sim::Sim::scene())?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__simple__add_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -143,7 +274,29 @@ fn wire__crate__api__simple__init_app_impl(
     )
 }
 
+// Section: related_funcs
+
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>
+);
+
 // Section: dart2rust
+
+impl SseDecode for Sim {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
 
 impl SseDecode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -153,10 +306,96 @@ impl SseDecode for String {
     }
 }
 
+impl SseDecode for crate::api::sim::BodyInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_kind = <crate::api::sim::BodyKind>::sse_decode(deserializer);
+        let mut var_start = <u32>::sse_decode(deserializer);
+        let mut var_count = <u32>::sse_decode(deserializer);
+        let mut var_outline = <Vec<u32>>::sse_decode(deserializer);
+        let mut var_cols = <u32>::sse_decode(deserializer);
+        let mut var_rows = <u32>::sse_decode(deserializer);
+        return crate::api::sim::BodyInfo {
+            kind: var_kind,
+            start: var_start,
+            count: var_count,
+            outline: var_outline,
+            cols: var_cols,
+            rows: var_rows,
+        };
+    }
+}
+
+impl SseDecode for crate::api::sim::BodyKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::sim::BodyKind::Rope,
+            1 => crate::api::sim::BodyKind::Cloth,
+            2 => crate::api::sim::BodyKind::Soft,
+            3 => crate::api::sim::BodyKind::Stone,
+            4 => crate::api::sim::BodyKind::Metal,
+            5 => crate::api::sim::BodyKind::Wood,
+            _ => unreachable!("Invalid variant for BodyKind: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u8().unwrap() != 0
+    }
+}
+
 impl SseDecode for f32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_f32::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for Vec<crate::api::sim::BodyInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::sim::BodyInfo>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<f32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<f32>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<u32>::sse_decode(deserializer));
+        }
+        return ans_;
     }
 }
 
@@ -172,6 +411,114 @@ impl SseDecode for Vec<u8> {
     }
 }
 
+impl SseDecode for Option<crate::api::sim::Vec2> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::sim::Vec2>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for crate::api::sim::SceneInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_bodies = <Vec<crate::api::sim::BodyInfo>>::sse_decode(deserializer);
+        let mut var_lines = <Vec<u32>>::sse_decode(deserializer);
+        let mut var_constraints = <Vec<u32>>::sse_decode(deserializer);
+        let mut var_rests = <Vec<f32>>::sse_decode(deserializer);
+        let mut var_ties = <Vec<u32>>::sse_decode(deserializer);
+        let mut var_radius = <f32>::sse_decode(deserializer);
+        let mut var_floorY = <f32>::sse_decode(deserializer);
+        let mut var_wallX = <f32>::sse_decode(deserializer);
+        return crate::api::sim::SceneInfo {
+            bodies: var_bodies,
+            lines: var_lines,
+            constraints: var_constraints,
+            rests: var_rests,
+            ties: var_ties,
+            radius: var_radius,
+            floor_y: var_floorY,
+            wall_x: var_wallX,
+        };
+    }
+}
+
+impl SseDecode for crate::api::sim::SimFrame {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_positions = <Vec<f32>>::sse_decode(deserializer);
+        let mut var_velocities = <Vec<f32>>::sse_decode(deserializer);
+        let mut var_contacts = <Vec<u32>>::sse_decode(deserializer);
+        let mut var_stats = <crate::api::sim::SimStats>::sse_decode(deserializer);
+        let mut var_steps = <u32>::sse_decode(deserializer);
+        return crate::api::sim::SimFrame {
+            positions: var_positions,
+            velocities: var_velocities,
+            contacts: var_contacts,
+            stats: var_stats,
+            steps: var_steps,
+        };
+    }
+}
+
+impl SseDecode for crate::api::sim::SimInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_gravity = <f32>::sse_decode(deserializer);
+        let mut var_compliance = <f32>::sse_decode(deserializer);
+        let mut var_damping = <f32>::sse_decode(deserializer);
+        let mut var_substeps = <u32>::sse_decode(deserializer);
+        let mut var_paused = <bool>::sse_decode(deserializer);
+        let mut var_reset = <bool>::sse_decode(deserializer);
+        let mut var_drag = <Option<crate::api::sim::Vec2>>::sse_decode(deserializer);
+        let mut var_fire = <Option<crate::api::sim::Vec2>>::sse_decode(deserializer);
+        let mut var_stepOnce = <bool>::sse_decode(deserializer);
+        let mut var_debug = <bool>::sse_decode(deserializer);
+        return crate::api::sim::SimInput {
+            gravity: var_gravity,
+            compliance: var_compliance,
+            damping: var_damping,
+            substeps: var_substeps,
+            paused: var_paused,
+            reset: var_reset,
+            drag: var_drag,
+            fire: var_fire,
+            step_once: var_stepOnce,
+            debug: var_debug,
+        };
+    }
+}
+
+impl SseDecode for crate::api::sim::SimStats {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_particles = <u32>::sse_decode(deserializer);
+        let mut var_constraints = <u32>::sse_decode(deserializer);
+        let mut var_contacts = <u32>::sse_decode(deserializer);
+        let mut var_kinetic = <f32>::sse_decode(deserializer);
+        let mut var_potential = <f32>::sse_decode(deserializer);
+        let mut var_maxStretch = <f32>::sse_decode(deserializer);
+        return crate::api::sim::SimStats {
+            particles: var_particles,
+            constraints: var_constraints,
+            contacts: var_contacts,
+            kinetic: var_kinetic,
+            potential: var_potential,
+            max_stretch: var_maxStretch,
+        };
+    }
+}
+
+impl SseDecode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u32::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for u8 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -184,17 +531,19 @@ impl SseDecode for () {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
 }
 
-impl SseDecode for i32 {
+impl SseDecode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+        deserializer.cursor.read_u64::<NativeEndian>().unwrap() as _
     }
 }
 
-impl SseDecode for bool {
+impl SseDecode for crate::api::sim::Vec2 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u8().unwrap() != 0
+        let mut var_x = <f32>::sse_decode(deserializer);
+        let mut var_y = <f32>::sse_decode(deserializer);
+        return crate::api::sim::Vec2 { x: var_x, y: var_y };
     }
 }
 
@@ -207,7 +556,8 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        3 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
+        1 => wire__crate__api__sim__Sim_advance_impl(port, ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -220,18 +570,235 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__api__simple__add_impl(ptr, rust_vec_len, data_len),
-        2 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
+        2 => wire__crate__api__sim__Sim_info_impl(ptr, rust_vec_len, data_len),
+        3 => wire__crate__api__sim__Sim_scene_impl(ptr, rust_vec_len, data_len),
+        4 => wire__crate__api__simple__add_impl(ptr, rust_vec_len, data_len),
+        5 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
 
 // Section: rust2dart
 
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<Sim> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Sim> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Sim>> for Sim {
+    fn into_into_dart(self) -> FrbWrapper<Sim> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::BodyInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.kind.into_into_dart().into_dart(),
+            self.start.into_into_dart().into_dart(),
+            self.count.into_into_dart().into_dart(),
+            self.outline.into_into_dart().into_dart(),
+            self.cols.into_into_dart().into_dart(),
+            self.rows.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::BodyInfo {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::BodyInfo> for crate::api::sim::BodyInfo {
+    fn into_into_dart(self) -> crate::api::sim::BodyInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::BodyKind {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Rope => 0.into_dart(),
+            Self::Cloth => 1.into_dart(),
+            Self::Soft => 2.into_dart(),
+            Self::Stone => 3.into_dart(),
+            Self::Metal => 4.into_dart(),
+            Self::Wood => 5.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::BodyKind {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::BodyKind> for crate::api::sim::BodyKind {
+    fn into_into_dart(self) -> crate::api::sim::BodyKind {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::SceneInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.bodies.into_into_dart().into_dart(),
+            self.lines.into_into_dart().into_dart(),
+            self.constraints.into_into_dart().into_dart(),
+            self.rests.into_into_dart().into_dart(),
+            self.ties.into_into_dart().into_dart(),
+            self.radius.into_into_dart().into_dart(),
+            self.floor_y.into_into_dart().into_dart(),
+            self.wall_x.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::SceneInfo {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::SceneInfo> for crate::api::sim::SceneInfo {
+    fn into_into_dart(self) -> crate::api::sim::SceneInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::SimFrame {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.positions.into_into_dart().into_dart(),
+            self.velocities.into_into_dart().into_dart(),
+            self.contacts.into_into_dart().into_dart(),
+            self.stats.into_into_dart().into_dart(),
+            self.steps.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::SimFrame {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::SimFrame> for crate::api::sim::SimFrame {
+    fn into_into_dart(self) -> crate::api::sim::SimFrame {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::SimInput {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.gravity.into_into_dart().into_dart(),
+            self.compliance.into_into_dart().into_dart(),
+            self.damping.into_into_dart().into_dart(),
+            self.substeps.into_into_dart().into_dart(),
+            self.paused.into_into_dart().into_dart(),
+            self.reset.into_into_dart().into_dart(),
+            self.drag.into_into_dart().into_dart(),
+            self.fire.into_into_dart().into_dart(),
+            self.step_once.into_into_dart().into_dart(),
+            self.debug.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::SimInput {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::SimInput> for crate::api::sim::SimInput {
+    fn into_into_dart(self) -> crate::api::sim::SimInput {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::SimStats {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.particles.into_into_dart().into_dart(),
+            self.constraints.into_into_dart().into_dart(),
+            self.contacts.into_into_dart().into_dart(),
+            self.kinetic.into_into_dart().into_dart(),
+            self.potential.into_into_dart().into_dart(),
+            self.max_stretch.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::SimStats {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::SimStats> for crate::api::sim::SimStats {
+    fn into_into_dart(self) -> crate::api::sim::SimStats {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::sim::Vec2 {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.x.into_into_dart().into_dart(),
+            self.y.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::sim::Vec2 {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::sim::Vec2> for crate::api::sim::Vec2 {
+    fn into_into_dart(self) -> crate::api::sim::Vec2 {
+        self
+    }
+}
+
+impl SseEncode for Sim {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>>::sse_encode(
+            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for crate::api::sim::BodyInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::sim::BodyKind>::sse_encode(self.kind, serializer);
+        <u32>::sse_encode(self.start, serializer);
+        <u32>::sse_encode(self.count, serializer);
+        <Vec<u32>>::sse_encode(self.outline, serializer);
+        <u32>::sse_encode(self.cols, serializer);
+        <u32>::sse_encode(self.rows, serializer);
+    }
+}
+
+impl SseEncode for crate::api::sim::BodyKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::sim::BodyKind::Rope => 0,
+                crate::api::sim::BodyKind::Cloth => 1,
+                crate::api::sim::BodyKind::Soft => 2,
+                crate::api::sim::BodyKind::Stone => 3,
+                crate::api::sim::BodyKind::Metal => 4,
+                crate::api::sim::BodyKind::Wood => 5,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u8(self as _).unwrap();
     }
 }
 
@@ -242,6 +809,43 @@ impl SseEncode for f32 {
     }
 }
 
+impl SseEncode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for Vec<crate::api::sim::BodyInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::sim::BodyInfo>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<f32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <f32>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <u32>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -249,6 +853,76 @@ impl SseEncode for Vec<u8> {
         for item in self {
             <u8>::sse_encode(item, serializer);
         }
+    }
+}
+
+impl SseEncode for Option<crate::api::sim::Vec2> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::sim::Vec2>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for crate::api::sim::SceneInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<crate::api::sim::BodyInfo>>::sse_encode(self.bodies, serializer);
+        <Vec<u32>>::sse_encode(self.lines, serializer);
+        <Vec<u32>>::sse_encode(self.constraints, serializer);
+        <Vec<f32>>::sse_encode(self.rests, serializer);
+        <Vec<u32>>::sse_encode(self.ties, serializer);
+        <f32>::sse_encode(self.radius, serializer);
+        <f32>::sse_encode(self.floor_y, serializer);
+        <f32>::sse_encode(self.wall_x, serializer);
+    }
+}
+
+impl SseEncode for crate::api::sim::SimFrame {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<f32>>::sse_encode(self.positions, serializer);
+        <Vec<f32>>::sse_encode(self.velocities, serializer);
+        <Vec<u32>>::sse_encode(self.contacts, serializer);
+        <crate::api::sim::SimStats>::sse_encode(self.stats, serializer);
+        <u32>::sse_encode(self.steps, serializer);
+    }
+}
+
+impl SseEncode for crate::api::sim::SimInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <f32>::sse_encode(self.gravity, serializer);
+        <f32>::sse_encode(self.compliance, serializer);
+        <f32>::sse_encode(self.damping, serializer);
+        <u32>::sse_encode(self.substeps, serializer);
+        <bool>::sse_encode(self.paused, serializer);
+        <bool>::sse_encode(self.reset, serializer);
+        <Option<crate::api::sim::Vec2>>::sse_encode(self.drag, serializer);
+        <Option<crate::api::sim::Vec2>>::sse_encode(self.fire, serializer);
+        <bool>::sse_encode(self.step_once, serializer);
+        <bool>::sse_encode(self.debug, serializer);
+    }
+}
+
+impl SseEncode for crate::api::sim::SimStats {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.particles, serializer);
+        <u32>::sse_encode(self.constraints, serializer);
+        <u32>::sse_encode(self.contacts, serializer);
+        <f32>::sse_encode(self.kinetic, serializer);
+        <f32>::sse_encode(self.potential, serializer);
+        <f32>::sse_encode(self.max_stretch, serializer);
+    }
+}
+
+impl SseEncode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -264,17 +938,21 @@ impl SseEncode for () {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
 }
 
-impl SseEncode for i32 {
+impl SseEncode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+        serializer
+            .cursor
+            .write_u64::<NativeEndian>(self as _)
+            .unwrap();
     }
 }
 
-impl SseEncode for bool {
+impl SseEncode for crate::api::sim::Vec2 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u8(self as _).unwrap();
+        <f32>::sse_encode(self.x, serializer);
+        <f32>::sse_encode(self.y, serializer);
     }
 }
 
@@ -286,6 +964,7 @@ mod io {
     // Section: imports
 
     use super::*;
+    use crate::api::sim::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
     };
@@ -295,6 +974,20 @@ mod io {
     // Section: boilerplate
 
     flutter_rust_bridge::frb_generated_boilerplate_io!();
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_xpbd_viz_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>::increment_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_xpbd_viz_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>::decrement_strong_count(ptr as _);
+    }
 }
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
@@ -308,6 +1001,7 @@ mod web {
     // Section: imports
 
     use super::*;
+    use crate::api::sim::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
     };
@@ -319,6 +1013,20 @@ mod web {
     // Section: boilerplate
 
     flutter_rust_bridge::frb_generated_boilerplate_web!();
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSim(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Sim>>::decrement_strong_count(ptr as _);
+    }
 }
 #[cfg(target_family = "wasm")]
 pub use web::*;
