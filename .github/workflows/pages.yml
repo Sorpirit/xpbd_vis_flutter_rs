@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]        # change to master if that is your branch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rust-src
+          targets: wasm32-unknown-unknown
+      - run: cargo install wasm-pack
+      - run: cargo install flutter_rust_bridge_codegen --version 2.13.0
+      - run: flutter pub get
+      - run: flutter_rust_bridge_codegen build-web --release
+      - run: flutter build web --release --base-href /${{ github.event.repository.name }}/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
